@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { IYoutubeItem, IYoutubeList } from 'src/app/youtube-item';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +16,7 @@ export class YoutubeService {
 
   constructor(private http: HttpClient) { }
 
-  getListVideo() {
-    return this.http.get(this.configUrl);
+  getYoutubeList(): Observable<IYoutubeList> {
+    return this.http.get<IYoutubeList>(this.configUrl);
   }
 }

@@ -1,8 +1,13 @@
+<button>Selection mode</button>
+<div>Total count: {{youtubeItemSnippets.length}}</div>
+<div>Selected records: ----</div>
 <ag-grid-angular
   style="width: 100%; height: 600px;"
   class="ag-theme-balham"
-  [rowData]="rowData | async"
   [columnDefs]="columnDefs"
+  [rowData]="youtubeItemSnippets"
+  [enableColResize]="true"
+  [enableFilter]="true"
 >
 </ag-grid-angular>
 

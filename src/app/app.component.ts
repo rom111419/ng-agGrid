@@ -1,5 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable, Observer } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { ImageComponent } from 'src/app/image/image.component';
+import { SubscriptionStorage } from 'src/app/subscription-stоrage/subscription-storage';
+import { TitleComponent } from 'src/app/title/title.component';
+import { IYoutubeItem, IYoutubeItemSnippet, IYoutubeList } from 'src/app/youtube-item';
 import { YoutubeService } from 'src/app/youtube.service';
 
 @Component({
@@ -7,23 +13,39 @@ import { YoutubeService } from 'src/app/youtube.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   title = 'app';
   columnDefs = [
-    {headerName: 'thumbnails', field: 'thumbnails'},
-    {headerName: 'publishedAt', field: 'publishedAt'},
-    {headerName: 'title', field: 'title'},
-    {headerName: 'description', field: 'description'}
+    {headerName: '', field: 'thumbnails',  sortable: true, filter: true, cellRendererFramework: ImageComponent},
+    {headerName: 'Published on', field: 'publishedAt',  sortable: true, filter: true },
+    {headerName: 'Video Title', field: 'title',  sortable: true, filter: true, cellRendererFramework: TitleComponent},
+    {headerName: 'Description', field: 'description',  sortable: true, filter: true }
   ];
-
-  rowData: any;
+  youtubeList: IYoutubeList;
+  youtubeItemSnippets = [];
+  protected subs: SubscriptionStorage = new SubscriptionStorage();
 
   constructor(private http: HttpClient,
               private youtubeService: YoutubeService) {
   }
 
   ngOnInit() {
-    this.youtubeService.getListVideo().subscribe(item => console.log(item));
+    this.subscribeOnYoutubeList();
   }
 
+  subscribeOnYoutubeList() {
+    this.youtubeService
+      .getYoutubeList()
+      .subscribe(youtubeList => {
+        this.youtubeItemSnippets = youtubeList.items.map((youtubeItem) => {
+          Object.assign(youtubeItem.snippet, youtubeItem.id);
+          return youtubeItem.snippet;
+        });
+      });
+
+  }
+
+  ngOnDestroy() {
+    this.subs.unsubscribe();
+  }
 }
