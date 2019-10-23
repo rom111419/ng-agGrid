@@ -1,8 +1,7 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { ImageComponent } from 'src/app/youtube/image/image.component';
-import { SubscriptionStorage } from 'src/app/subscription-stоrage/subscription-storage';
 import { TitleComponent } from 'src/app/youtube/title/title.component';
 import { YoutubeService } from 'src/app/youtube/youtube.service';
 
@@ -10,7 +9,8 @@ import { YoutubeService } from 'src/app/youtube/youtube.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit, OnDestroy {
   columnDefs = [
@@ -18,8 +18,8 @@ export class AppComponent implements OnInit, OnDestroy {
       headerName: '',
       field: 'checkboxes',
       headerCheckboxSelection: true,
-      headerCheckboxSelectionFilteredOnly: true,
-      checkboxSelection: true
+      checkboxSelection: true,
+      width: 80
     },
     {headerName: '', field: 'thumbnails', cellRendererFramework: ImageComponent},
     {headerName: 'Published on', field: 'publishedAt'},
@@ -32,11 +32,11 @@ export class AppComponent implements OnInit, OnDestroy {
   private gridApi;
   private gridColumnApi;
   private selected;
-  private popupParent;
 
   constructor(private http: HttpClient,
-              private youtubeService: YoutubeService) {
-    this.popupParent = document.querySelector('body');
+              private youtubeService: YoutubeService,
+              public cd: ChangeDetectorRef
+              ) {
   }
 
   ngOnInit() {
@@ -44,14 +44,16 @@ export class AppComponent implements OnInit, OnDestroy {
       this.youtubeService
         .getYoutubeList()
         .subscribe(youtubeList => {
-          this.youtubeItemSnippets = youtubeList.items.map((youtubeItem) => youtubeItem.snippet);
+          this.youtubeItemSnippets = youtubeList.items.map((youtubeItem) => {
+            Object.assign(youtubeItem.snippet, youtubeItem.id);
+            return youtubeItem.snippet;
+          });
         })
     );
   }
 
-  onSelectionChanged($event?: any) {
+  onSelectionChanged() {
     this.youtubeCheckboxedItemsNumber = this.gridApi.getSelectedNodes().length;
-    return $event;
   }
 
   onSelectAllChanged() {

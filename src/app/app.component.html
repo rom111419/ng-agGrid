@@ -3,16 +3,17 @@
 <div>Total count: {{youtubeItemSnippets.length}}</div>
 <div>Selected records: {{youtubeCheckboxedItemsNumber}}</div>
 <ag-grid-angular
-  #agGridAngular
   id="myGrid"
-  style="width: 900px; height: 600px;"
+  style="width: 900px; height: 600px; overflow: scroll"
   class="ag-theme-balham"
   rowSelection="multiple"
+  singleClickEdit="true"
+  suppressAnimationFrame="true"
   [enableFilter]="true"
   [columnDefs]="columnDefs"
   [rowData]="youtubeItemSnippets"
-  (selectionChanged)="onSelectionChanged($event)"
-  [popupParent]="popupParent"
+  (selectionChanged)="onSelectionChanged()"
+  rowHeight="100"
   (gridReady)="onGridReady($event)"
 >
 </ag-grid-angular>

@@ -23,6 +23,7 @@ export interface IYoutubeItemSnippet {
   };
   title?: string;
   thumbnails2: string;
+  rowHeight?: number;
 }
 
 export interface IYoutubeItem {
