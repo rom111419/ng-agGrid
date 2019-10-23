@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 import { ImageComponent } from 'src/app/youtube/image/image.component';
 import { SubscriptionStorage } from 'src/app/subscription-stоrage/subscription-storage';
 import { TitleComponent } from 'src/app/youtube/title/title.component';
@@ -12,7 +13,6 @@ import { YoutubeService } from 'src/app/youtube/youtube.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'app';
   columnDefs = [
     {
       headerName: '',
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ];
   youtubeItemSnippets = [];
   youtubeCheckboxedItemsNumber = 0;
-  protected subs: SubscriptionStorage = new SubscriptionStorage();
+  subscription: Subscription = new Subscription();
   private gridApi;
   private gridColumnApi;
   private selected;
@@ -40,25 +40,21 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-  }
-
-  subscribeOnYoutubeList() {
-    this.youtubeService
-      .getYoutubeList()
-      .subscribe(youtubeList => {
-        this.youtubeItemSnippets = youtubeList.items.map((youtubeItem) => {
-          Object.assign(youtubeItem.snippet, youtubeItem.id);
-          return youtubeItem.snippet;
-        });
-      });
+    this.subscription.add(
+      this.youtubeService
+        .getYoutubeList()
+        .subscribe(youtubeList => {
+          this.youtubeItemSnippets = youtubeList.items.map((youtubeItem) => youtubeItem.snippet);
+        })
+    );
   }
 
   onSelectionChanged($event?: any) {
-    this.youtubeCheckboxedItemsNumber = $event.api.clientSideRowModel.rootNode.allLeafChildren.filter(item => item.selected).length;
+    this.youtubeCheckboxedItemsNumber = this.gridApi.getSelectedNodes().length;
     return $event;
   }
 
-  onSelectAllChanged($event: any) {
+  onSelectAllChanged() {
     this.gridApi.forEachNode((node) => {
       this.selected = !node.selected;
       node.setSelected((!node.selected));
@@ -66,22 +62,16 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onSelectionModeChanged() {
-    const visibility = this.gridColumnApi.getAllColumns().filter(item => item.colId === 'checkboxes')[0].visible;
-    this.gridColumnApi.setColumnVisible('checkboxes', (!visibility));
-  }
-
-  getMainMenuItems(params) {
-    console.log(params.column);
+    this.gridColumnApi.setColumnVisible('checkboxes', (!this.gridColumnApi.getColumn('checkboxes').visible));
   }
 
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     this.gridColumnApi.setColumnVisible('checkboxes', false);
-    this.subscribeOnYoutubeList();
   }
 
   ngOnDestroy() {
-    this.subs.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }
