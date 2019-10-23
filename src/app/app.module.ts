@@ -14,7 +14,7 @@ import { TitleComponent } from './youtube/title/title.component';
   declarations: [
     AppComponent,
     ImageComponent,
-    TitleComponent
+    TitleComponent,
   ],
   imports: [
     AgGridModule.withComponents([ImageComponent, TitleComponent]),

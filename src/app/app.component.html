@@ -7,13 +7,13 @@
   style="width: 900px; height: 600px; overflow: scroll"
   class="ag-theme-balham"
   rowSelection="multiple"
-  singleClickEdit="true"
-  suppressAnimationFrame="true"
+  rowHeight="100"
+  suppressMenuHide="true"
+  allowContextMenuWithControlKey=true
   [enableFilter]="true"
   [columnDefs]="columnDefs"
   [rowData]="youtubeItemSnippets"
   (selectionChanged)="onSelectionChanged()"
-  rowHeight="100"
   (gridReady)="onGridReady($event)"
 >
 </ag-grid-angular>
