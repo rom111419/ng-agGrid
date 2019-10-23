@@ -1,13 +1,19 @@
-<button>Selection mode</button>
+<button (click)="onSelectionModeChanged()">Selection mode on\off</button>
+<button (click)="onSelectAllChanged(agGridAngular)">{{(selected) ? 'unselect' : 'select'}}</button>
 <div>Total count: {{youtubeItemSnippets.length}}</div>
-<div>Selected records: ----</div>
+<div>Selected records: {{youtubeCheckboxedItemsNumber}}</div>
 <ag-grid-angular
+  #agGridAngular
+  id="myGrid"
   style="width: 100%; height: 600px;"
   class="ag-theme-balham"
+  rowSelection="multiple"
+  [enableFilter]="true"
   [columnDefs]="columnDefs"
   [rowData]="youtubeItemSnippets"
-  [enableColResize]="true"
-  [enableFilter]="true"
+  (selectionChanged)="onSelectionChanged($event)"
+  [popupParent]="popupParent"
+  (gridReady)="onGridReady($event)"
 >
 </ag-grid-angular>
 

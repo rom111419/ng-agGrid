@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ImageComponent } from './image.component';
+import { ImageComponent } from 'src/app/youtube/image/image.component';
 
 describe('ImageComponent', () => {
   let component: ImageComponent;

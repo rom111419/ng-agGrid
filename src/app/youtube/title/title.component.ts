@@ -13,7 +13,6 @@ export class TitleComponent implements OnInit {
   ngOnInit() {}
 
   agInit(params: any): void {
-    console.log(params);
     this.params = params;
   }
 

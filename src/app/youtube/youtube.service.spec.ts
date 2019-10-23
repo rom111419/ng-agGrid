@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { YoutubeService } from './youtube.service';
+import { YoutubeService } from 'src/app/youtube/youtube.service';
 
 describe('YoutubeService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { IYoutubeItem, IYoutubeList } from 'src/app/youtube-item';
+import { IYoutubeItem, IYoutubeList } from 'src/app/youtube/youtube-item';
 
 @Injectable({
   providedIn: 'root'
