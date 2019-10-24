@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ImageComponent } from 'src/app/youtube/image/image.component';
 import { TitleComponent } from 'src/app/youtube/title/title.component';
@@ -31,11 +31,14 @@ export class AppComponent implements OnInit, OnDestroy {
   private gridApi;
   private gridColumnApi;
   private selected;
+  protected statusBar;
+  protected popupParent;
 
   constructor(private http: HttpClient,
               private youtubeService: YoutubeService,
               public cd: ChangeDetectorRef
               ) {
+    this.popupParent = document.querySelector('body');
   }
 
   ngOnInit() {
@@ -70,6 +73,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     this.gridColumnApi.setColumnVisible('checkboxes', false);
+  }
+
+  getContextMenuItems(params) {
+    console.log(params);
+    const url = 'https://www.youtube.com/watch?v=' + params.node.data.videoId;
+    const openInNewTab = () => window.open(url, '_blank');
+    const customMenuItem = { name: 'Open in new tab', action: openInNewTab};
+    return ['copy', 'copyWithHeaders', 'paste', customMenuItem];
   }
 
   ngOnDestroy() {

@@ -8,12 +8,13 @@
   class="ag-theme-balham"
   rowSelection="multiple"
   rowHeight="100"
-  suppressMenuHide="true"
-  allowContextMenuWithControlKey=true
   [enableFilter]="true"
   [columnDefs]="columnDefs"
-  [rowData]="youtubeItemSnippets"
+  [rowData]="(youtubeItemSnippets)"
   (selectionChanged)="onSelectionChanged()"
+  [suppressRowClickSelection]="true"
+  [getContextMenuItems]="getContextMenuItems"
+  [popupParent]="popupParent"
   (gridReady)="onGridReady($event)"
 >
 </ag-grid-angular>
