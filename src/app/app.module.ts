@@ -1,7 +1,7 @@
 import { AgGridModule } from 'ag-grid-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
 import 'ag-grid-enterprise';
 
@@ -20,6 +20,7 @@ import { TitleComponent } from './youtube/title/title.component';
     BrowserModule,
     HttpClientModule,
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [],
   bootstrap: [AppComponent]
 })

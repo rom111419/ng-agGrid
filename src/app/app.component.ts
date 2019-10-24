@@ -31,7 +31,6 @@ export class AppComponent implements OnInit, OnDestroy {
   private gridApi;
   private gridColumnApi;
   private selected;
-  protected statusBar;
   protected popupParent;
 
   constructor(private http: HttpClient,
@@ -76,11 +75,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   getContextMenuItems(params) {
-    console.log(params);
     const url = 'https://www.youtube.com/watch?v=' + params.node.data.videoId;
     const openInNewTab = () => window.open(url, '_blank');
-    const customMenuItem = { name: 'Open in new tab', action: openInNewTab};
-    return ['copy', 'copyWithHeaders', 'paste', customMenuItem];
+    return ['copy', 'copyWithHeaders', 'paste',  { name: 'Open in new tab', action: openInNewTab}];
   }
 
   ngOnDestroy() {

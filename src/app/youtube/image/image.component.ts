@@ -6,14 +6,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./image.component.scss']
 })
 export class ImageComponent implements OnInit {
-  params: any;
+  width: any;
+  height: any;
+  url: any;
 
   constructor() {}
 
   ngOnInit() {}
 
   agInit(params: any): void {
-    this.params = params;
+    this.width = params.value.default.width;
+    this.height = params.value.default.height;
+    this.url = params.value.default.url;
   }
 
 }
