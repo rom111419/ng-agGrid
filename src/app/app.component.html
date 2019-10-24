@@ -1,5 +1,4 @@
 <button (click)="onSelectionModeChanged()">Selection mode on\off</button>
-<button (click)="onSelectAllChanged()">{{(selected) ? 'unselect' : 'select'}}</button>
 <div>Total count: {{youtubeItemSnippets.length}}</div>
 <div>Selected records: {{youtubeCheckboxedItemsNumber}}</div>
 <ag-grid-angular
@@ -10,11 +9,13 @@
   rowHeight="100"
   [enableFilter]="true"
   [columnDefs]="columnDefs"
-  [rowData]="(youtubeItemSnippets)"
+  [rowData]="youtubeItemSnippets"
   (selectionChanged)="onSelectionChanged()"
   [suppressRowClickSelection]="true"
   [getContextMenuItems]="getContextMenuItems"
   [popupParent]="popupParent"
+  [defaultColDef]="defaultColDef"
+  [frameworkComponents]="frameworkComponents"
   (gridReady)="onGridReady($event)"
 >
 </ag-grid-angular>

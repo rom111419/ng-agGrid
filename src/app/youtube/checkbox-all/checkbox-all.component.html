@@ -1,0 +1,6 @@
+<ng-container *ngIf="collId !== 'checkboxes'">
+  <span>{{displayName}}</span>
+</ng-container>
+<ng-container *ngIf="collId == 'checkboxes'">
+  <input type="checkbox"  (click)="onSelectAllChanged($event)">
+</ng-container>
