@@ -10,7 +10,6 @@ import { YoutubeService } from 'src/app/youtube/youtube.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit, OnDestroy {
   columnDefs = [
